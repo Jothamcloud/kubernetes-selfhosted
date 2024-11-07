@@ -1,0 +1,21 @@
+- name: Copy master setup script
+  copy:
+    src: master-setup.sh
+    dest: /tmp/master-setup.sh
+    mode: '0755'
+
+- name: Execute master setup script
+  command: /tmp/master-setup.sh
+  args:
+    creates: /etc/kubernetes/admin.conf
+
+- name: Fetch join command
+  fetch:
+    src: /tmp/kubeadm_join_cmd.sh
+    dest: /tmp/kubeadm_join_cmd.sh
+    flat: yes
+
+- name: Clean up setup script
+  file:
+    path: /tmp/master-setup.sh
+    state: absent

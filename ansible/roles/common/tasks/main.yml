@@ -1,0 +1,15 @@
+- name: Copy k8s setup script
+  copy:
+    src: k8s-setup.sh
+    dest: /tmp/k8s-setup.sh
+    mode: '0755'
+
+- name: Execute k8s setup script
+  command: /tmp/k8s-setup.sh
+  args:
+    creates: /etc/kubernetes/kubelet.conf
+
+- name: Clean up setup script
+  file:
+    path: /tmp/k8s-setup.sh
+    state: absent

@@ -1,0 +1,23 @@
+- name: Copy join command from master
+  copy:
+    src: /tmp/kubeadm_join_cmd.sh
+    dest: /tmp/kubeadm_join_cmd.sh
+    mode: '0755'
+
+- name: Add shebang to join script
+  lineinfile:
+    path: /tmp/kubeadm_join_cmd.sh
+    insertbefore: BOF
+    line: '#!/bin/bash'
+    create: yes
+
+- name: Execute join command
+  command: sudo /tmp/kubeadm_join_cmd.sh
+  args:
+    creates: /etc/kubernetes/kubelet.conf
+
+
+- name: Clean up join script
+  file:
+    path: /tmp/kubeadm_join_cmd.sh
+    state: absent

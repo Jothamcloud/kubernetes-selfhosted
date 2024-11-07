@@ -1,0 +1,42 @@
+# Terraform files
+.terraform/
+*.tfstate
+*.tfstate.*
+.terraform.lock.hcl
+terraform.tfvars
+crash.log
+
+# Ansible files
+*.retry
+ansible/*.log
+ansible/inventory.ini
+ansible/group_vars/all.yml
+
+# SSH Keys
+*.pem
+id_rsa*
+*.key
+.ssh/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Temporary files
+*.tmp
+*.bak
+*.backup
+temp/
+tmp/
+
+# Compiled files
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
