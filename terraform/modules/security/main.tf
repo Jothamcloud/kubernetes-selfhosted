@@ -59,6 +59,22 @@ resource "aws_security_group" "k8s_sg" {
     self        = true
   }
 
+  # Scheduler
+  ingress {
+    from_port   = 10251
+    to_port     = 10251
+    protocol    = "tcp"
+    self        = true
+  }
+
+  # Scheduler
+  ingress {
+    from_port   = 10252
+    to_port     = 10252
+    protocol    = "tcp"
+    self        = true
+  }
+
   # Internal cluster communication
   ingress {
     from_port = 0

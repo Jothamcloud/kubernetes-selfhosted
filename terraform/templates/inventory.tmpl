@@ -1,11 +1,8 @@
-[bastion]
-bastion ansible_host=${bastion_public_ip}
-
 [master]
-${master_hostname} ansible_host=${master_private_ip}
+${master_hostname} ansible_host=${master_public_ip}
 
 [workers]
-%{ for index, ip in worker_ips ~}
+%{ for index, ip in worker_public_ips ~}
 worker-${index + 1} ansible_host=${ip}
 %{ endfor ~}
 
@@ -13,4 +10,4 @@ worker-${index + 1} ansible_host=${ip}
 ansible_user=ubuntu
 ansible_ssh_private_key_file=~/.ssh/id_rsa
 ansible_python_interpreter=/usr/bin/python3
-ansible_ssh_common_args='-o StrictHostKeyChecking=no -o ProxyCommand="ssh -W %h:%p -q ubuntu@${bastion_public_ip}"'
+ansible_ssh_common_args='-o StrictHostKeyChecking=no'

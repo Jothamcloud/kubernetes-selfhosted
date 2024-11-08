@@ -1,24 +1,24 @@
-# - name: Configure Kubernetes cluster nodes
-#   hosts: all:!bastion      
-#   become: yes
-#   become_user: root
-#   gather_facts: yes
-#   roles:
-#     - common                 
+- name: Configure Kubernetes cluster nodes
+  hosts: all     
+  become: yes
+  become_user: root
+  gather_facts: yes
+  roles:
+    - common                 
 
-# - name: Configure Kubernetes master node
-#   hosts: master
-#   become: yes
-#   become_user: root
-#   roles:
-#     - master              
+- name: Configure Kubernetes master node
+  hosts: master
+  become: yes
+  become_user: root
+  roles:
+    - master              
 
-# - name: Configure Kubernetes worker nodes
-#   hosts: workers
-#   become: yes
-#   become_user: root
-#   roles:
-#     - worker                  
+- name: Configure Kubernetes worker nodes
+  hosts: workers
+  become: yes
+  become_user: root
+  roles:
+    - worker                  
 
 - name: Label worker nodes
   hosts: master

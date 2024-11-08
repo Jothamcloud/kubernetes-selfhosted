@@ -1,101 +1,59 @@
 variable "aws_region" {
-  description = "AWS region to deploy the infrastructure"
+  description = "AWS region"
   type        = string
-  default     = "us-east-1"
 }
 
 variable "environment" {
-  description = "Environment name (e.g., production, staging)"
+  description = "Environment name"
+  type        = string
+}
+
+variable "ubuntu_ami" {
+  description = "Ubuntu AMI ID"
   type        = string
 }
 
 variable "vpc_cidr" {
-  description = "CIDR block for VPC"
+  description = "VPC CIDR block"
   type        = string
 }
 
 variable "public_subnet_cidrs" {
-  description = "CIDR blocks for public subnets"
-  type        = list(string)
-}
-
-variable "private_subnet_cidrs" {
-  description = "CIDR blocks for private subnets"
+  description = "Public subnet CIDR blocks"
   type        = list(string)
 }
 
 variable "availability_zones" {
-  description = "List of availability zones"
+  description = "Availability zones"
   type        = list(string)
 }
 
 variable "key_name" {
-  description = "Name of the SSH key pair"
+  description = "SSH key pair name"
   type        = string
 }
 
 variable "master_instance_type" {
-  description = "Instance type for the master node"
+  description = "Master node instance type"
   type        = string
-  default     = "t2.medium"
 }
 
 variable "worker_instance_type" {
-  description = "Instance type for worker nodes"
+  description = "Worker node instance type"
   type        = string
-  default     = "t2.medium"
 }
 
 variable "worker_count" {
   description = "Number of worker nodes"
   type        = number
-  default     = 2
-}
-
-variable "kubernetes_version" {
-  description = "Kubernetes version to install"
-  type        = string
-}
-
-variable "pod_network_cidr" {
-  description = "CIDR block for pod network"
-  type        = string
-  default     = "192.168.0.0/16"
-}
-
-variable "service_cidr" {
-  description = "CIDR block for Kubernetes services"
-  type        = string
-  default     = "10.96.0.0/12"
 }
 
 variable "cluster_name" {
-  description = "Name of the Kubernetes cluster"
+  description = "Kubernetes cluster name"
   type        = string
 }
 
 variable "dns_domain" {
-  description = "DNS domain for the cluster"
+  description = "Kubernetes DNS domain"
   type        = string
-  default     = "cluster.local"
-}
-
-variable "container_runtime" {
-  description = "Container runtime to use"
-  type        = string
-  default     = "containerd"
-}
-
-variable "ubuntu_ami" {
-  description = "AMI ID for Ubuntu instances"
-  type        = string
-}
-
-variable "worker_labels" {
-  description = "Labels to apply to Kubernetes worker nodes"
-  type        = map(string)
-  default     = {
-    "node.kubernetes.io/type" = "worker"
-    environment = "production"
-  }
 }
