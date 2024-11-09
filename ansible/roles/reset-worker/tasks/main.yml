@@ -1,0 +1,23 @@
+- name: Copy join command from local
+  copy:
+    src: /tmp/kubeadm_join_cmd.sh
+    dest: /tmp/kubeadm_join_cmd.sh
+    mode: '0755'
+
+- name: Create rejoin script
+  copy:
+    content: |
+      #!/bin/bash
+      set -euxo pipefail
+
+      # Reset kubeadm
+      echo "yes" | sudo kubeadm reset
+
+
+      # Execute join command
+      sudo bash /tmp/kubeadm_join_cmd.sh
+    dest: /tmp/rejoin-worker.sh
+    mode: '0755'
+
+- name: Execute rejoin script
+  command: /tmp/rejoin-worker.sh

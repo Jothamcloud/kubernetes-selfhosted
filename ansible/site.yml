@@ -26,3 +26,24 @@
   become_user: root
   roles:
     - utils
+
+- name: Reset and Setup Again
+  hosts: master
+  become: yes
+  become_user: root
+  roles:
+    - reset-master  
+
+- name: Rejoin Workers
+  hosts: workers
+  become: yes
+  become_user: root
+  roles:
+    - reset-worker 
+
+- name: Final Setup
+  hosts: master
+  become: yes
+  become_user: root
+  roles:
+    - final-setup 

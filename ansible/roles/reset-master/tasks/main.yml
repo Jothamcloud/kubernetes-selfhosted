@@ -1,0 +1,24 @@
+- name: Copy reset master script
+  copy:
+    src: reset-master.sh
+    dest: /tmp/reset-master.sh
+    mode: '0755'
+
+- name: Execute reset master script
+  command: /tmp/reset-master.sh
+
+- name: Get join command
+  command: kubeadm token create --print-join-command
+  register: join_command
+
+- name: Create join command file
+  copy:
+    content: "{{ join_command.stdout }}"
+    dest: /tmp/kubeadm_join_cmd.sh
+    mode: '0755'
+
+- name: Fetch join command to local
+  fetch:
+    src: /tmp/kubeadm_join_cmd.sh
+    dest: /tmp/kubeadm_join_cmd.sh
+    flat: yes

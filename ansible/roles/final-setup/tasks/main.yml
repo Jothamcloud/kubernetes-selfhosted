@@ -1,0 +1,54 @@
+- name: Wait for nodes to be ready
+  pause:
+    seconds: 30
+
+- name: Get node list
+  shell: "kubectl get nodes --no-headers | grep -v control-plane"
+  register: node_list
+
+- name: Show nodes found
+  debug:
+    var: node_list.stdout_lines
+
+- name: Label worker nodes
+  shell: "kubectl label node {{ item.split()[0] }} node-role.kubernetes.io/worker=worker"
+  with_items: "{{ node_list.stdout_lines }}"
+
+- name: Verify labels
+  shell: "kubectl get nodes"
+  register: final_nodes
+
+- name: Show final node status
+  debug:
+    var: final_nodes.stdout_lines
+
+- name: Copy metrics server manifest
+  copy:
+    src: metrics-server.yaml
+    dest: metrics-server.yaml
+    owner: ubuntu
+    group: ubuntu
+    mode: '0644'
+
+- name: Install metrics server
+  shell: "kubectl apply -f metrics-server.yaml"
+  register: metrics_result
+
+- name: Show metrics server installation result
+  debug:
+    var: metrics_result.stdout_lines
+
+- name: Wait for metrics server to be ready
+  shell: "kubectl wait --namespace kube-system --for=condition=ready pod --selector=k8s-app=metrics-server --timeout=90s"
+  register: wait_result
+
+- name: Verify metrics server
+  shell: "kubectl top nodes"
+  register: top_result
+  retries: 5
+  delay: 10
+  until: top_result.rc == 0
+
+- name: Show top nodes output
+  debug:
+    var: top_result.stdout_lines
