@@ -17,3 +17,8 @@ output "worker_public_ips" {
   description = "Public IPs of worker nodes"
   value       = module.instances.worker_public_ips
 }
+
+output "k8s_dns" {
+  description = "DNS for Kubernetes workers"
+  value       = aws_route53_record.wildcard_workers.fqdn
+}

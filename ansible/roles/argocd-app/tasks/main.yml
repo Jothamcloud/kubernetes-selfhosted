@@ -1,0 +1,13 @@
+- name: Copy application manifest
+  copy:
+    src: application.yml
+    dest: /tmp/application.yml
+
+- name: Deploy application
+  command: kubectl apply -f /tmp/application.yml
+  register: application_deployment_result
+  changed_when: application_deployment_result.rc == 0
+
+- name: Display deployment result
+  debug:
+    var: application_deployment_result.stdout_lines

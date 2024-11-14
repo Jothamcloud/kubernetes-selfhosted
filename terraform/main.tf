@@ -31,6 +31,18 @@ module "instances" {
   environment          = var.environment
 }
 
+data "aws_route53_zone" "domain" {
+  name = "ajotham.link"
+}
+
+resource "aws_route53_record" "wildcard_workers" {
+  zone_id = data.aws_route53_zone.domain.zone_id
+  name    = "k8.ajotham.link"
+  type    = "A"
+  ttl     = "300"
+  records = module.instances.worker_public_ips
+}
+
 # Generate Ansible inventory
 resource "local_file" "ansible_inventory" {
   content = templatefile("${path.module}/templates/inventory.tmpl",

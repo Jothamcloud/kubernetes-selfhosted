@@ -1,0 +1,14 @@
+- name: Copy ArgoCD setup script
+  copy:
+    src: argocd-setup.sh
+    dest: /tmp/argocd-setup.sh
+    mode: '0755'
+
+- name: Execute ArgoCD setup script
+  command: /tmp/argocd-setup.sh
+  register: argocd_setup_result
+  changed_when: argocd_setup_result.rc == 0
+
+- name: Display ArgoCD setup result
+  debug:
+    var: argocd_setup_result.stdout_lines

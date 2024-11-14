@@ -47,3 +47,11 @@
   become_user: root
   roles:
     - final-setup 
+
+- name: Final Setup
+  hosts: master
+  become: yes
+  become_user: root
+  roles:
+    - argocd-setup
+    - argocd-app
